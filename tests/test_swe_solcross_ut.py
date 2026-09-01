@@ -4,6 +4,8 @@
 import swisseph as swe
 import unittest
 
+from tests.ephemeris import ONE_SECOND_IN_JULIAN_DAYS, assert_close
+
 class TestSweSolcrossUt(unittest.TestCase):
 
     @classmethod
@@ -12,7 +14,8 @@ class TestSweSolcrossUt(unittest.TestCase):
 
     def test_01(self):
         x = swe.solcross_ut(30, 2455334.0, swe.FLG_SWIEPH)
-        self.assertAlmostEqual(x, 2455671.928764275, places=5)
+        assert_close(self, x, 2455671.928764356, ONE_SECOND_IN_JULIAN_DAYS,
+                     label='solar crossing Julian day')
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,6 +4,8 @@
 import swisseph as swe
 import unittest
 
+from tests.ephemeris import ONE_SECOND_IN_JULIAN_DAYS, assert_close
+
 class TestSweGetOrbitalElements(unittest.TestCase):
 
     @classmethod
@@ -16,28 +18,35 @@ class TestSweGetOrbitalElements(unittest.TestCase):
         flags = swe.FLG_SWIEPH | swe.FLG_HELCTR
         elem = swe.get_orbital_elements(tjdet, pl, flags)
         self.assertEqual(len(elem), 50)
-        results = (0.3870973114030973,
-                0.20564082670656994,
-                7.0048323528425,
-                48.32860267825048,
-                29.134014946238988,
-                77.46261762448947,
-                284.23849955213836,
-                260.55807731881237,
-                272.46706882819836,
-                1.701117176627804,
-                0.24085023933428615,
-                4.0923600982534065,
-                0.24085768924789555,
-                -115.87662942301525,
-                2452206.0441132435,
-                0.3074943002702738,
-                0.46670032253592075,
+        results = (0.3870973116752384,
+                0.20564082761390637,
+                7.004832547718116,
+                48.32860398797294,
+                29.134013561486853,
+                77.4626175494598,
+                284.23849969043636,
+                260.5580773512961,
+                272.46706891532926,
+                1.7011172398961207,
+                0.2408502395882737,
+                4.092360093937826,
+                0.24085768950188863,
+                -115.87662958397914,
+                2452206.0441131364,
+                0.30749430013522416,
+                0.4667003232152527,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-        for i in range(50):
-            self.assertAlmostEqual(elem[i], results[i], places=5)
+        for index, (actual, expected) in enumerate(zip(elem, results)):
+            if expected == 0.0:
+                self.assertEqual(actual, expected)
+            elif index == 14:
+                assert_close(self, actual, expected, ONE_SECOND_IN_JULIAN_DAYS,
+                             label='perihelion Julian day')
+            else:
+                assert_close(self, actual, expected, 1e-10, rel_tol=1e-10,
+                             label='orbital element {0}'.format(index))
 
 if __name__ == '__main__':
     unittest.main()

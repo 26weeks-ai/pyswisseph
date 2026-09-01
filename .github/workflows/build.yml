@@ -8,16 +8,51 @@ on:
             - "v*"
 
 jobs:
+    test:
+        name: Test pinned DE441 data with ASan
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Download checksum-pinned ephemeris fixture
+              run: python tests/fetch_ephemeris.py --destination .test-data/ephe
+
+            - name: Build extension with AddressSanitizer
+              run: python setup.py build_ext --inplace
+              env:
+                  CFLAGS: -O2 -fsanitize=address -fno-omit-frame-pointer
+                  LDFLAGS: -fsanitize=address
+
+            - name: Build official swetest reference executable
+              run: make -C libswe swetest
+
+            - name: Run randomized suite and fixed-star parity checks
+              run: |
+                  export LD_PRELOAD="$(gcc -print-file-name=libasan.so)"
+                  python tests/run.py --seed "$GITHUB_RUN_ID"
+                  python tests/verify_swetest.py --swetest libswe/swetest
+              env:
+                  ASAN_OPTIONS: detect_leaks=0:halt_on_error=1:abort_on_error=1
+                  PYTHONMALLOC: malloc
+                  SE_EPHE_PATH: ${{ github.workspace }}/.test-data/ephe
+
     build_src_wheel:
         name: Build source wheel
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
               with:
                   submodules: recursive
 
-            - uses: actions/setup-python@v2
+            - uses: actions/setup-python@v5
               name: Install Python 3.9
               with:
                   python-version: 3.9
@@ -30,9 +65,9 @@ jobs:
               run: |
                   python setup.py sdist -d wheelhouse
 
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v4
               with:
-                  name: wheels
+                  name: distribution-source
                   path: wheelhouse
 
     build_plat_wheels:
@@ -44,11 +79,11 @@ jobs:
         runs-on: ${{ matrix.os }}
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
               with:
                   submodules: recursive
 
-            - uses: actions/setup-python@v2
+            - uses: actions/setup-python@v5
               name: Install Python 3.9
               with:
                   python-version: 3.9
@@ -64,25 +99,26 @@ jobs:
                   CIBW_BUILD: cp*
                   CIBW_ARCHS_MACOS: universal2
 
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v4
               with:
-                  name: wheels
+                  name: distribution-${{ matrix.os }}
                   path: ./wheelhouse
 
     pypi_upload:
-        needs: [build_src_wheel, build_plat_wheels]
+        needs: [test, build_src_wheel, build_plat_wheels]
         name: Upload wheels to pypi
         runs-on: ubuntu-latest
         if: startsWith(github.ref, 'refs/tags')
 
         steps:
-            - uses: actions/download-artifact@v2
+            - uses: actions/download-artifact@v4
               with:
-                  name: wheels
+                  pattern: distribution-*
                   path: dist
+                  merge-multiple: true
 
             - name: Publish package to PyPI
-              uses: pypa/gh-action-pypi-publish@v1.4.2
+              uses: pypa/gh-action-pypi-publish@release/v1
               with:
                   user: __token__
                   password: ${{ secrets.PYPI_TOKEN }}

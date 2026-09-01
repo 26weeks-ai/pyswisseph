@@ -5,8 +5,8 @@ Pyswisseph
 This is the Python extension to the Swiss Ephemeris by AstroDienst.
 
 The Swiss Ephemeris is the de-facto standard library for astrological
-calculations. It is a high-precision ephemeris, based upon the DE431
-ephemerides from NASA's JPL, and covering the time range 13201 BC to AD 17191.
+calculations. Current Swiss Ephemeris planetary and lunar data files are based
+upon NASA JPL DE441 and cover the time range 13201 BC to AD 17191.
 
 Usage Example
 =============
@@ -56,23 +56,36 @@ For more information, see file ``libswe/LICENSE``.
 Test Suite
 ==========
 
-For now, the tests can be run with the standard ``python3 setup.py test``
-command. For them to pass successfully, you need a basic set of ephemerides
-files installed somewhere on your system:
+The numerical tests use a checksum-pinned DE441 fixture. Download and verify it
+with::
+
+    python3 tests/fetch_ephemeris.py --destination .test-data/ephe
+
+The fixture contains:
 
 - ``seas_18.se1``
 - ``sefstars.txt``
 - ``semo_18.se1``
 - ``sepl_18.se1``
 
-All downloadable from https://www.astro.com/ftp/swisseph/ephe/
+The source revision and SHA-256 checksum for each file are recorded in
+``tests/ephemeris-manifest.json``. The downloader uses immutable URLs and
+refuses files whose size or checksum differs.
 
 The path to the directory containing those files must be indicated in the
 environment variable ``SE_EPHE_PATH``.
 
-For example, on a system with the ``env`` command, you can do::
+Run the suite in randomized order with a recorded seed::
 
-    env SE_EPHE_PATH="/usr/share/sweph/ephe" python3 setup.py test
+    env SE_EPHE_PATH="$PWD/.test-data/ephe" python3 tests/run.py --seed 441
+
+To reproduce the Sirius and Polaris speed baselines against the official
+``swetest`` executable built from the bundled Swiss Ephemeris revision on the
+same platform, run::
+
+    make -C libswe swetest
+    env SE_EPHE_PATH="$PWD/.test-data/ephe" \
+      python3 tests/verify_swetest.py --swetest libswe/swetest
 
 Credits
 =======

@@ -23,8 +23,8 @@
 """Python extension to AstroDienst Swiss Ephemeris library.
 
 The Swiss Ephemeris is the de-facto standard library for astrological
-calculations. It is a high-precision ephemeris, based upon the DE431
-ephemerides from NASA's JPL, and covering the time range 13201 BC to AD 17191.
+calculations. Current Swiss Ephemeris planetary and lunar data files are based
+upon NASA JPL DE441 and cover the time range 13201 BC to AD 17191.
 
 ::
 

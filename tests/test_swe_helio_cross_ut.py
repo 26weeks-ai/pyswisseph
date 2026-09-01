@@ -4,6 +4,8 @@
 import swisseph as swe
 import unittest
 
+from tests.ephemeris import ONE_SECOND_IN_JULIAN_DAYS, assert_close
+
 class TestSweHelioCrossUt(unittest.TestCase):
 
     @classmethod
@@ -13,7 +15,8 @@ class TestSweHelioCrossUt(unittest.TestCase):
     def test_01(self):
         pl = swe.SATURN
         jdx = swe.helio_cross_ut(pl, 30, 2455334.0, swe.FLG_SWIEPH, False)
-        self.assertAlmostEqual(jdx, 2461855.379534041, places=5)
+        assert_close(self, jdx, 2461855.379537281, ONE_SECOND_IN_JULIAN_DAYS,
+                     label='heliocentric crossing Julian day')
 
 if __name__ == '__main__':
     unittest.main()

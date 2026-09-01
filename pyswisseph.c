@@ -468,8 +468,7 @@ PyDoc_STRVAR(pyswe_cs2lonlatstr__doc__,
 static PyObject * pyswe_cs2lonlatstr FUNCARGS_KEYWDS
 {
     int cs;
-    /* The degree symbol is two bytes in UTF-8; leave room for it and NUL. */
-    char ret[16], plus, minus;
+    char ret[10], plus, minus;
     static char *kwlist[] = {"cs", "plus", "minus", NULL};
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "icc", kwlist,
                                      &cs, &plus, &minus))

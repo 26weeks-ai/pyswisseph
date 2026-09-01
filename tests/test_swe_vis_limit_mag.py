@@ -4,6 +4,8 @@
 import swisseph as swe
 import unittest
 
+from tests.ephemeris import ANGLE_TOLERANCE_DEGREES, assert_close
+
 class TestSweVisLimitMag(unittest.TestCase):
 
     @classmethod
@@ -20,11 +22,17 @@ class TestSweVisLimitMag(unittest.TestCase):
         res, dret = swe.vis_limit_mag(jd, geopos, atmo, obs, obj, flags)
         self.assertEqual(res, 0)
         self.assertEqual(len(dret), 10)
-        t1 = (-8.216269236527388, 5.416663816613972, 130.2622919837906,
-                3.9434996686342574, 127.36538544324537, 9.190664958012636,
-                291.859517243866, -3.9127293193738018, 0.0, 0.0)
-        for i in range(10):
-            self.assertAlmostEqual(dret[i], t1[i], places=6)
+        expected = (-8.216269235697762, 5.416663786674341, 130.26229197547684,
+                3.943499643265711, 127.36538540591431, 9.190665145103704,
+                291.8595169945994, -3.912729321347505, 0.0, 0.0)
+        assert_close(self, dret[0], expected[0], 1e-7, rel_tol=1e-7,
+                     label='limiting magnitude')
+        for index in range(1, 7):
+            assert_close(self, dret[index], expected[index], ANGLE_TOLERANCE_DEGREES,
+                         label='altitude/azimuth {0}'.format(index))
+        assert_close(self, dret[7], expected[7], 1e-7, rel_tol=1e-7,
+                     label='object magnitude')
+        self.assertEqual(dret[8:], expected[8:])
 
 if __name__ == '__main__':
     unittest.main()

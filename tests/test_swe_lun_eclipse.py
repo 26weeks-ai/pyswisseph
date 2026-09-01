@@ -4,6 +4,11 @@
 import swisseph as swe
 import unittest
 
+from tests.ephemeris import (
+    assert_julian_days,
+    assert_lunar_eclipse_attributes,
+)
+
 class TestSweLunEclipse(unittest.TestCase):
 
     @classmethod
@@ -19,40 +24,37 @@ class TestSweLunEclipse(unittest.TestCase):
 
         self.assertEqual(rflags, 4)
         self.assertEqual(len(tret), 10)
-        t1 = (2454517.6430690456, 0.0, 2454517.57172334, 2454517.7144189165,
-                2454517.6258038115, 2454517.6603509136, 2454517.525389122,
-                2454517.7608554545, 0.0, 0.0)
-        for i in range(10):
-            self.assertAlmostEqual(tret[i], t1[i])
+        expected = (2454517.643069022, 0.0, 2454517.5717233163,
+                2454517.714418893, 2454517.6258037863, 2454517.6603508913,
+                2454517.525389098, 2454517.7608554307, 0.0, 0.0)
+        assert_julian_days(self, tret, expected)
 
         tjdut = tret[0]
         rflags, tret, attr = swe.lun_eclipse_when_loc(tjdut, geopos, flags)
 
         self.assertEqual(rflags, 29584)
         self.assertEqual(len(tret), 10)
-        t1 = (2454695.3820517384, 0.0, 2454695.316710297, 2454695.447390333,
-                0.0, 0.0, 2454695.2672055247, 2454695.496797575, 0.0, 0.0)
-        for i in range(10):
-            self.assertAlmostEqual(tret[i], t1[i])
+        expected = (2454695.382051714, 0.0, 2454695.316710274,
+                2454695.447390307, 0.0, 0.0, 2454695.267205502,
+                2454695.49679755, 0.0, 0.0)
+        assert_julian_days(self, tret, expected)
 
         self.assertEqual(len(attr), 20)
-        t1 = (0.8076127691060245, 1.8366497324296667, 0.0, 0.0,
-                326.9885866287668, 21.362590458352507, 21.402251051495636,
-                0.5301609960196174, 0.8076127691060245, 138.0, 28.0, 28.0,
+        expected = (0.807612712816962, 1.8366496745409226, 0.0, 0.0,
+                326.9885781414507, 21.362587376008065, 21.402247975418415,
+                0.530161025257712, 0.807612712816962, 138.0, 28.0, 28.0,
                 28.0, 28.0, 28.0, 28.0, 28.0, 28.0, 28.0, 28.0)
-        for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i], places=4)
+        assert_lunar_eclipse_attributes(self, attr, expected)
 
         rflags, attr = swe.lun_eclipse_how(tjdut, geopos, flags)
 
         self.assertEqual(rflags, 4)
         self.assertEqual(len(attr), 20)
-        t1 = (1.1061093373639495, 2.145134309769692, 0.0, 0.0,
-                73.8203145568749, 26.299290272560974, 26.330700027276947,
-                0.3801625589840114, 1.1061093373639495, 133.0, 26.0, 0.0,
+        expected = (1.1061093564527134, 2.145134328347761, 0.0, 0.0,
+                73.82030732787894, 26.299295664076965, 26.330705411368193,
+                0.38016254918883874, 1.1061093564527134, 133.0, 26.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-        for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i], places=4)
+        assert_lunar_eclipse_attributes(self, attr, expected)
 
 if __name__ == '__main__':
     unittest.main()

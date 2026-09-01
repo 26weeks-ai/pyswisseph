@@ -29,6 +29,7 @@ swisseph.*.so
 swisseph.so
 
 venv/
+.test-data/
 
 # debian
 .pybuild/

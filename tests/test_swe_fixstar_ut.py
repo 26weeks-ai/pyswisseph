@@ -4,6 +4,8 @@
 import swisseph as swe
 import unittest
 
+from tests.ephemeris import assert_position_and_speed
+
 class TestSweFixstarUt(unittest.TestCase):
 
     @classmethod
@@ -15,12 +17,12 @@ class TestSweFixstarUt(unittest.TestCase):
         xx, retnam, retflags = swe.fixstar_ut('Polaris', 2452275.5, flags)
         self.assertIsInstance(xx, tuple)
         self.assertEqual(len(xx), 6)
-        self.assertAlmostEqual(xx[0], 38.64742459858111)
-        self.assertAlmostEqual(xx[1], 89.27646936051526)
-        self.assertAlmostEqual(xx[2], 27356067.783757936)
-        self.assertAlmostEqual(xx[3], -0.005939286663743433)
-        self.assertAlmostEqual(xx[4], 7.651842909477333e-05)
-        self.assertAlmostEqual(xx[5], -0.009287547437675991, places=6)
+        expected = (
+            38.64742459831258,
+            89.2764693605161,
+            27356067.78375791,
+        )
+        assert_position_and_speed(self, xx, expected, 'Polaris')
         self.assertEqual(retnam, 'Polaris,alUMi')
         self.assertEqual(retflags, 2306)
         self.assertEqual(retflags, flags)

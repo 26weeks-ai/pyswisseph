@@ -6,3 +6,4 @@ graft docs
 graft libswe
 graft swephelp
 graft tests
+global-exclude *.py[cod]

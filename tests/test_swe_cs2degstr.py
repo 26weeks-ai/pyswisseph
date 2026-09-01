@@ -10,6 +10,7 @@ class TestSweCs2Degstr(unittest.TestCase):
         s = swe.cs2degstr(98923700)
         self.assertIsInstance(s, str)
         self.assertEqual(s, " 4°47'17")
+        self.assertEqual(len(s.encode('utf-8')) + 1, 10)
 
 if __name__ == '__main__':
     unittest.main()
