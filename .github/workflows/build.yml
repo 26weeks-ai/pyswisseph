@@ -54,9 +54,9 @@ jobs:
                   submodules: recursive
 
             - uses: actions/setup-python@v7.0.0
-              name: Install Python 3.9
+              name: Install Python 3.11
               with:
-                  python-version: 3.9
+                  python-version: 3.11
 
             - name: Update to latest pip
               run: |
@@ -85,9 +85,9 @@ jobs:
                   submodules: recursive
 
             - uses: actions/setup-python@v7.0.0
-              name: Install Python 3.9
+              name: Install Python 3.11
               with:
-                  python-version: 3.9
+                  python-version: 3.11
 
             - name: Install cibuildwheel
               run: |
