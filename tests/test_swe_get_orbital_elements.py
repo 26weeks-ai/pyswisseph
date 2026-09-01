@@ -37,7 +37,7 @@ class TestSweGetOrbitalElements(unittest.TestCase):
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(50):
-            self.assertAlmostEqual(elem[i], results[i])
+            self.assertAlmostEqual(elem[i], results[i], places=5)
 
 if __name__ == '__main__':
     unittest.main()

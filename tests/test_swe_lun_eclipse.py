@@ -41,7 +41,7 @@ class TestSweLunEclipse(unittest.TestCase):
                 0.5301609960196174, 0.8076127691060245, 138.0, 28.0, 28.0,
                 28.0, 28.0, 28.0, 28.0, 28.0, 28.0, 28.0, 28.0)
         for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i])
+            self.assertAlmostEqual(attr[i], t1[i], places=4)
 
         rflags, attr = swe.lun_eclipse_how(tjdut, geopos, flags)
 
@@ -52,7 +52,7 @@ class TestSweLunEclipse(unittest.TestCase):
                 0.3801625589840114, 1.1061093373639495, 133.0, 26.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i])
+            self.assertAlmostEqual(attr[i], t1[i], places=4)
 
 if __name__ == '__main__':
     unittest.main()

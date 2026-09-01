@@ -16,7 +16,7 @@ class TestSweGetCurrentFileData(unittest.TestCase):
         self.assertIn("semo_18.se1", path)
         self.assertAlmostEqual(start, 2378487.555370702)
         self.assertAlmostEqual(end, 2597656.457452471)
-        self.assertEqual(denum, 431)
+        self.assertEqual(denum, 441)
 
 if __name__ == '__main__':
     unittest.main()

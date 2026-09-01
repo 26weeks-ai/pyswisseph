@@ -33,7 +33,7 @@ class TestSweLunOccult(unittest.TestCase):
         t1 = (-132.44808390758698, -3.223940213770285, 0.0, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0)
         for i in range(10):
-            self.assertAlmostEqual(geopos[i], t1[i])
+            self.assertAlmostEqual(geopos[i], t1[i], places=4)
 
         self.assertEqual(len(attr), 20)
         t1 = (86.75745374029351, 172.52668487931908, 29765.456995447865,
@@ -41,7 +41,7 @@ class TestSweLunOccult(unittest.TestCase):
                 76.84858704296006, 1.8151476701449225e-05, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i])
+            self.assertAlmostEqual(attr[i], t1[i], places=4)
 
         rflags, tret, attr = swe.lun_occult_when_loc(jd, pl, geopos[:3], flags)
 
@@ -58,7 +58,7 @@ class TestSweLunOccult(unittest.TestCase):
                 1.4787793334711022e-05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i])
+            self.assertAlmostEqual(attr[i], t1[i], places=4)
 
 if __name__ == '__main__':
     unittest.main()

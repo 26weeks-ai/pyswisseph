@@ -448,7 +448,8 @@ PyDoc_STRVAR(pyswe_cs2degstr__doc__,
 static PyObject * pyswe_cs2degstr FUNCARGS_KEYWDS
 {
     int cs;
-    char ret[9];
+    /* The degree symbol is two bytes in UTF-8; leave room for it and NUL. */
+    char ret[16];
     static char *kwlist[] = {"cs", NULL};
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "i", kwlist, &cs))
         return NULL;
@@ -467,7 +468,8 @@ PyDoc_STRVAR(pyswe_cs2lonlatstr__doc__,
 static PyObject * pyswe_cs2lonlatstr FUNCARGS_KEYWDS
 {
     int cs;
-    char ret[10], plus, minus;
+    /* The degree symbol is two bytes in UTF-8; leave room for it and NUL. */
+    char ret[16], plus, minus;
     static char *kwlist[] = {"cs", "plus", "minus", NULL};
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "icc", kwlist,
                                      &cs, &plus, &minus))

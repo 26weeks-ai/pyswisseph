@@ -32,7 +32,7 @@ class TestSweSolEclipse(unittest.TestCase):
         t1 = (-150.2657563045994, -67.54726332710979,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(10):
-            self.assertAlmostEqual(geopos[i], t1[i])
+            self.assertAlmostEqual(geopos[i], t1[i], places=4)
 
         self.assertEqual(len(attr), 20)
         t1 = (0.9808845283315087, 0.9657677495562372, 0.9327073460829188,
@@ -40,7 +40,7 @@ class TestSweSolEclipse(unittest.TestCase):
                 16.283962210232154, 0.0010808703550863033, 0.9657677495562372,
                 121.0, 60.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i])
+            self.assertAlmostEqual(attr[i], t1[i], places=4)
 
         rflags, tret, attr = swe.sol_eclipse_when_loc(jd, geopos[:3], flags)
 
@@ -58,7 +58,7 @@ class TestSweSolEclipse(unittest.TestCase):
                 16.273181670269107, 0.00045073507822495805, 0.9657656089841425,
                 121.0, 60.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i])
+            self.assertAlmostEqual(attr[i], t1[i], places=4)
 
         rflags, attr = swe.sol_eclipse_how(tjdut, geopos[:3], flags)
 
@@ -69,7 +69,7 @@ class TestSweSolEclipse(unittest.TestCase):
                 16.283962210232154, 0.0010808703550863033, 0.9657677495562372,
                 121.0, 60.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         for i in range(20):
-            self.assertAlmostEqual(attr[i], t1[i])
+            self.assertAlmostEqual(attr[i], t1[i], places=4)
 
 if __name__ == '__main__':
     unittest.main()

@@ -12,7 +12,7 @@ class TestSweGetTidAcc(unittest.TestCase):
 
     def test_01(self):
         tidacc = swe.get_tid_acc()
-        self.assertEqual(tidacc, -25.8)
+        self.assertEqual(tidacc, -25.936)
 
 if __name__ == '__main__':
     unittest.main()

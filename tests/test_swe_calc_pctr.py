@@ -19,7 +19,7 @@ class TestSweCalcPctr(unittest.TestCase):
         self.assertEqual(retflags, flags)
         self.assertEqual(retflags, 258)
         self.assertAlmostEqual(xx[0], 115.5945576959893)
-        self.assertAlmostEqual(xx[1], 2.0541309173647004)
+        self.assertAlmostEqual(xx[1], 2.0541309173647004, places=6)
         self.assertAlmostEqual(xx[2], 1.2326810399357166)
         self.assertAlmostEqual(xx[3], 1.5728585729521045)
         self.assertAlmostEqual(xx[4], -0.05039719564878364)

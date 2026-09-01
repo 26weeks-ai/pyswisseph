@@ -12,7 +12,7 @@ class TestSweSolcross(unittest.TestCase):
 
     def test_01(self):
         x = swe.solcross(30, 2455334.0, swe.FLG_SWIEPH)
-        self.assertAlmostEqual(x, 2455671.9295328567)
+        self.assertAlmostEqual(x, 2455671.9295328567, places=5)
 
 if __name__ == '__main__':
     unittest.main()

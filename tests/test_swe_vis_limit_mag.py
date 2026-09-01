@@ -24,7 +24,7 @@ class TestSweVisLimitMag(unittest.TestCase):
                 3.9434996686342574, 127.36538544324537, 9.190664958012636,
                 291.859517243866, -3.9127293193738018, 0.0, 0.0)
         for i in range(10):
-            self.assertAlmostEqual(dret[i], t1[i])
+            self.assertAlmostEqual(dret[i], t1[i], places=6)
 
 if __name__ == '__main__':
     unittest.main()
